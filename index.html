@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#020205">
+<title>AI SCRIPT FORGE — SINGULARITY</title>
+<style>
+:root{--bg:#020205;--panel:#0a0a12;--panel2:#10101b;--red:#ff003c;--red2:#9e0028;--gold:#ffd166;--text:#f4f4f8;--muted:#9696a8;--line:rgba(255,255,255,.09);--green:#42e6a4;--radius:15px;--shadow:0 15px 50px #0009}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}body{overflow-x:hidden}button,input,textarea,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}#matrix{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.18;pointer-events:none}.scanlines{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,0,60,.018) 4px)}#app{position:relative;z-index:2;min-height:100vh}.hidden{display:none!important}.muted{color:var(--muted)}.gold{color:var(--gold)}.red{color:var(--red)}.green{color:var(--green)}.small{font-size:12px}.mono,pre,code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.topbar{height:70px;position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:15px;padding:0 22px;background:rgba(4,4,10,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:1.5px;white-space:nowrap}.brand-mark{width:34px;height:34px;border:1px solid var(--red);display:grid;place-items:center;color:var(--red);transform:rotate(45deg);box-shadow:0 0 18px #ff003c44}.brand-mark span{transform:rotate(-45deg);font-weight:900}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:3px}.top-spacer{flex:1}.top-stat{padding:7px 11px;border:1px solid var(--line);background:#ffffff06;border-radius:10px;white-space:nowrap}.top-stat b{color:var(--gold)}.icon-btn,.btn{border:1px solid var(--line);color:var(--text);background:#ffffff08;border-radius:10px;padding:9px 13px;transition:.2s}.icon-btn:hover,.btn:hover{border-color:var(--red);box-shadow:0 0 18px #ff003c22;transform:translateY(-1px)}.btn.primary{background:linear-gradient(120deg,#ff003c,#9e0028);border-color:#ff456c;color:white;font-weight:800}.btn.gold-btn{background:#ffd166;color:#17120a;border-color:#ffd166;font-weight:800}.btn.danger{border-color:#ff003c66;color:#ff6686}.btn.success{border-color:#42e6a466;color:var(--green)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.layout{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:calc(100vh - 70px)}.sidebar{position:sticky;top:70px;height:calc(100vh - 70px);overflow:auto;padding:20px 14px;border-right:1px solid var(--line);background:rgba(5,5,12,.76)}.side-label{font-size:10px;letter-spacing:2px;color:#77778a;padding:13px 12px 7px}.nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;margin:3px 0;border:1px solid transparent;border-radius:10px;color:#bdbdcc;cursor:pointer;transition:.18s}.nav-item:hover{background:#ffffff08;color:white}.nav-item.active{color:white;background:linear-gradient(90deg,#ff003c20,transparent);border-color:#ff003c55;box-shadow:inset 3px 0 var(--red)}.nav-icon{width:22px;text-align:center;color:var(--red)}.side-bottom{margin-top:25px;padding:13px;border:1px solid var(--line);border-radius:12px;background:#ffffff05}.main{padding:27px;min-width:0;max-width:1600px;width:100%;margin:0 auto}.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:23px}.eyebrow{font-size:10px;letter-spacing:3px;color:var(--red);font-weight:800}.page-title{font-size:clamp(23px,3vw,34px);font-weight:900;letter-spacing:-1px;margin:3px 0}.page-sub{color:var(--muted);margin:0}.grid{display:grid;gap:15px}.grid.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{background:linear-gradient(145deg,#10101aee,#080810ee);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);min-width:0}.panel.cut{border-radius:4px 15px 4px 15px;border-top:1px solid #ff003c66}.stat-label{font-size:11px;color:var(--muted);letter-spacing:1px}.stat-value{font-size:27px;font-weight:900;margin:5px 0}.stat-foot{font-size:11px;color:var(--muted)}.panel-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px;font-size:15px}.field{display:flex;flex-direction:column;gap:6px;margin:11px 0}.field label{font-size:12px;color:#c4c4d0}.field input,.field textarea,.field select,.search{width:100%;border:1px solid #ffffff18;background:#05050b;color:white;border-radius:9px;padding:11px 12px;outline:none}.field input:focus,.field textarea:focus,.field select:focus,.search:focus{border-color:var(--red);box-shadow:0 0 0 3px #ff003c18}.field textarea{min-height:105px;resize:vertical}.field select option{background:#10101b}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.row>*{min-width:0}.row .grow{flex:1}.actions{display:flex;gap:8px;flex-wrap:wrap}.badge{display:inline-flex;align-items:center;padding:4px 8px;border:1px solid var(--line);border-radius:30px;font-size:10px;color:var(--muted)}.badge.pending{color:var(--gold);border-color:#ffd16655}.badge.approved{color:var(--green);border-color:#42e6a455}.badge.rejected,.badge.banned{color:#ff718c;border-color:#ff003c66}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);font-size:12px;vertical-align:middle}th{font-size:10px;color:var(--muted);letter-spacing:1px;font-weight:700}td .btn{padding:6px 9px;font-size:11px}.empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed #ffffff20;border-radius:12px}.chat-shell{display:flex;flex-direction:column;height:min(68vh,720px);min-height:430px}.chat-log{flex:1;overflow:auto;padding:5px 2px 15px;display:flex;flex-direction:column;gap:13px}.message{max-width:92%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#ffffff07;white-space:pre-wrap;overflow-wrap:anywhere}.message.user{align-self:flex-end;background:#ff003c12;border-color:#ff003c44}.message.assistant{align-self:flex-start}.message .msg-head{font-size:10px;color:var(--red);letter-spacing:1px;margin-bottom:6px;font-weight:800}.codebox{position:relative;margin:9px 0;background:#030308;border:1px solid #ff003c55;border-radius:10px;overflow:hidden}.codebox-head{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#ff003c12;border-bottom:1px solid #ffffff12;color:var(--gold);font-size:10px}.codebox pre{margin:0;padding:14px;overflow:auto;max-height:420px;color:#d7f7e9;font-size:12px;line-height:1.65;white-space:pre}.chat-compose{display:flex;gap:9px;border-top:1px solid var(--line);padding-top:13px}.chat-compose textarea{flex:1;min-height:48px;max-height:130px;resize:vertical;background:#05050b;border:1px solid var(--line);border-radius:10px;color:white;padding:12px;outline:none}.chat-compose textarea:focus{border-color:var(--red)}.typing{color:var(--gold);font-size:12px}.market-card{display:flex;flex-direction:column;gap:10px}.market-card h3{margin:0;font-size:15px}.market-card p{color:var(--muted);margin:0;min-height:38px}.market-card .meta{font-size:11px;color:var(--muted)}.login-screen{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:18px;background:radial-gradient(ellipse at 50% 30%,#3c0016aa,transparent 55%),#020205}.auth-card{width:min(430px,100%);padding:27px;background:#090911ed;border:1px solid #ff003c66;border-radius:18px;box-shadow:0 0 70px #ff003c22}.auth-card h1{font-size:25px;letter-spacing:1px;margin:15px 0 2px}.auth-tabs{display:flex;gap:8px;margin:18px 0}.auth-tabs button{flex:1}.toast-host{position:fixed;right:18px;top:82px;z-index:100;display:flex;flex-direction:column;gap:9px;width:min(350px,calc(100vw - 36px))}.toast{padding:12px 14px;background:#11111c;border:1px solid #ff003c88;border-left:3px solid var(--red);border-radius:10px;box-shadow:var(--shadow);animation:toastIn .25s ease}.toast.good{border-color:#42e6a477;border-left-color:var(--green)}.toast.warn{border-color:#ffd16677;border-left-color:var(--gold)}@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}.marquee{overflow:hidden;white-space:nowrap;background:#ff003c12;border-bottom:1px solid #ff003c33;color:#ffb6c5;padding:7px 0;font-size:11px}.marquee span{display:inline-block;padding-left:100%;animation:marquee 24s linear infinite}@keyframes marquee{to{transform:translateX(-100%)}}.hamburger{display:none}.overlay{position:fixed;inset:0;background:#000a;z-index:40;display:grid;place-items:center;padding:16px}.modal{width:min(520px,100%);max-height:90vh;overflow:auto;background:#0c0c15;border:1px solid #ff003c66;border-radius:15px;padding:20px;box-shadow:var(--shadow)}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.modal-head h3{margin:0}.links{display:flex;gap:10px;flex-wrap:wrap}.link-chip{padding:9px 12px;border:1px solid var(--line);border-radius:9px;color:#ddd}.link-chip:hover{border-color:var(--red)}.progress{height:5px;background:#ffffff12;border-radius:5px;overflow:hidden}.progress span{display:block;height:100%;background:var(--red);width:0;transition:width .2s}.footer-note{text-align:center;color:#666679;font-size:10px;padding:22px}.mobile-nav{display:none}
+@media(max-width:1050px){.grid.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:220px minmax(0,1fr)}.main{padding:20px}}
+@media(max-width:760px){.topbar{height:60px;padding:0 12px}.brand{font-size:12px}.brand small{font-size:8px}.top-stat{font-size:10px;padding:6px 8px}.top-stat.hide-mobile{display:none}.hamburger{display:inline-flex}.layout{display:block;min-height:calc(100vh - 60px)}.sidebar{position:fixed;z-index:30;top:60px;left:0;width:270px;height:calc(100vh - 60px);transform:translateX(-105%);transition:transform .25s;box-shadow:var(--shadow)}.sidebar.open{transform:translateX(0)}.main{padding:17px 13px 85px}.grid.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.grid.two{grid-template-columns:1fr}.panel{padding:14px}.stat-value{font-size:22px}.page-head{margin-bottom:16px}.page-title{font-size:24px}.chat-shell{height:65vh;min-height:400px}.message{max-width:98%}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:25;background:#080810f2;border-top:1px solid var(--line);justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));backdrop-filter:blur(15px)}.mobile-nav button{background:none;border:0;color:#aaa;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:2px}.mobile-nav button.active{color:var(--red)}.topbar .top-spacer{min-width:0}.topbar .brand{flex:1}.auth-card{padding:20px}}
+@media(max-width:390px){.grid.cards{grid-template-columns:1fr 1fr}.top-stat{font-size:9px}.brand{letter-spacing:.5px}.brand-mark{width:29px;height:29px}}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas><div class="scanlines"></div>
+<div id="app">
+<header class="topbar">
+<button class="icon-btn hamburger" id="menuToggle" aria-label="Mở menu">☰</button>
+<div class="brand"><div class="brand-mark"><span>SF</span></div><div>AI SCRIPT FORGE<small>SINGULARITY EDITION</small></div></div>
+<div class="top-spacer"></div>
+<div class="top-stat hide-mobile">WALLET <b id="topBalance">0 ₫</b></div>
+<div class="top-stat">AI <b id="topCredits">0</b></div>
+<div class="top-stat hide-mobile">RESET <b id="topCooldown">--:--:--</b></div>
+<button class="icon-btn" id="accountBtn" title="Tài khoản">◉</button>
+</header>
+<div id="broadcast" class="marquee hidden"><span id="broadcastText"></span></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<div class="side-label">MAINFRAME</div>
+<div class="nav-item active" data-page="chat"><span class="nav-icon">⌘</span>Lõi AI Chat</div>
+<div class="nav-item" data-page="wallet"><span class="nav-icon">◇</span>Ví Kho Báu</div>
+<div class="nav-item" data-page="bounty"><span class="nav-icon">✧</span>Săn Tiền Thưởng</div>
+<div class="nav-item" data-page="giftcode"><span class="nav-icon">▣</span>Két Giftcode</div>
+<div class="nav-item" data-page="market"><span class="nav-icon">▤</span>Script Cộng Đồng</div>
+<div class="nav-item" data-page="shield"><span class="nav-icon">⬡</span>Lò Bảo Mật Raw</div>
+<div id="adminNav" class="hidden">
+<div class="side-label">OVERLORD CONTROL</div>
+<div class="nav-item" data-page="admin"><span class="nav-icon">◈</span>Admin Dashboard</div>
+<div class="nav-item" data-page="admin-users"><span class="nav-icon">♙</span>Quản lý User</div>
+<div class="nav-item" data-page="admin-deposits"><span class="nav-icon">⇧</span>Duyệt nạp tiền</div>
+<div class="nav-item" data-page="admin-scripts"><span class="nav-icon">⌁</span>Duyệt Script</div>
+<div class="nav-item" data-page="admin-config"><span class="nav-icon">⚙</span>System Config</div>
+</div>
+<div class="side-bottom">
+<div class="small gold">SYSTEM STATUS</div>
+<div class="row" style="margin-top:7px"><span class="badge approved">● ONLINE</span><span class="small muted" id="sideUser">Chưa đăng nhập</span></div>
+<div class="small muted" style="margin-top:9px">Lua development workspace</div>
+</div>
+</aside>
+<main class="main" id="main"><div class="empty">Đang khởi tạo hệ thống...</div></main>
+</div>
+<nav class="mobile-nav">
+<button data-mobile="chat">⌘<span>AI Chat</span></button><button data-mobile="wallet">◇<span>Ví</span></button><button data-mobile="market">▤<span>Market</span></button><button data-mobile="giftcode">▣<span>Giftcode</span></button><button data-mobile="shield">⬡<span>Shield</span></button>
+</nav>
+<div class="footer-note">AI SCRIPT FORGE · SINGULARITY EDITION · SECURE SESSION</div>
+</div>
+<div class="toast-host" id="toastHost"></div>
+<div class="login-screen" id="loginScreen">
+<div class="auth-card">
+<div class="brand"><div class="brand-mark"><span>SF</span></div><div>AI SCRIPT FORGE<small>SINGULARITY EDITION</small></div></div>
+<h1>ACCESS THE FORGE</h1><div class="muted small">Xác thực để truy cập lõi hệ thống.</div>
+<div class="auth-tabs"><button class="btn primary" id="loginTab">Đăng nhập</button><button class="btn" id="registerTab">Đăng ký</button></div>
+<form id="authForm">
+<div class="field"><label>TÊN TÀI KHOẢN</label><input id="authUsername" autocomplete="username" minlength="3" maxlength="24" required placeholder="username"></div>
+<div class="field"><label>MẬT KHẨU</label><input id="authPassword" type="password" autocomplete="current-password" minlength="10" maxlength="128" required placeholder="Tối thiểu 10 ký tự"></div>
+<button class="btn primary" style="width:100%;margin-top:8px" id="authSubmit">ĐĂNG NHẬP →</button>
+</form>
+<div class="small muted" style="margin-top:15px">Không chia sẻ mật khẩu hoặc token truy cập với bất kỳ ai.</div>
+</div>
+</div>
+<div class="overlay hidden" id="modalOverlay"><div class="modal" id="modalBox"></div></div>
+<script>
+"use strict";
+
+/* ========================= CONFIG & STATE ========================= */
+const API_BASE = (localStorage.getItem("forge_api_base") || "http://localhost:5000").replace(/\/+$/,"");
+const state = {
+ token: localStorage.getItem("forge_token") || "",
+ user: null, config: {cooldown_hours:24,max_free_credits:5,broadcast_message:""},
+ page: "chat", authMode: "login", chatBusy: false, chatAbort: null,
+ lastSync: 0, usersPage: 1
+};
+const $ = id => document.getElementById(id);
+const main = $("main");
+
+function escapeHTML(value){
+ return String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function money(value){return new Intl.NumberFormat("vi-VN").format(Number(value)||0)+" ₫";}
+function toast(message,type=""){
+ const el=document.createElement("div");el.className="toast "+(type==="success"?"good":type==="warning"?"warn":"");
+ el.textContent=message;$("toastHost").appendChild(el);setTimeout(()=>el.remove(),3800);
+}
+function setBusy(button,busy,label){
+ if(!button)return;button.disabled=busy;if(busy){button.dataset.old=button.textContent;button.textContent=label||"ĐANG XỬ LÝ...";}else{button.textContent=button.dataset.old||button.textContent;delete button.dataset.old;}
+}
+async function api(path,options={}){
+ const headers={"Content-Type":"application/json",...(options.headers||{})};
+ if(state.token)headers.Authorization="Bearer "+state.token;
+ let response;
+ try{response=await fetch(API_BASE+path,{...options,headers});}
+ catch(e){throw new Error("Không kết nối được Backend. Kiểm tra API URL và máy chủ.");}
+ let data={};try{data=await response.json();}catch(e){}
+ if(!response.ok){
+  if(response.status===401 && state.token){logout(false);toast("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.","warning");}
+  throw new Error(data.message||("HTTP "+response.status));
+ }
+ return data;
+}
+function requireUser(){if(!state.user){showAuth();return false;}return true;}
+function showAuth(){ $("loginScreen").classList.remove("hidden"); }
+function hideAuth(){ $("loginScreen").classList.add("hidden"); }
+function logout(show=true){
+ state.token="";state.user=null;localStorage.removeItem("forge_token");hideAuth();showAuth();updateHeader();
+ if(show)toast("Đã đăng xuất.");
+}
+function updateHeader(){
+ $("topBalance").textContent=money(state.user?.balance||0);
+ $("topCredits").textContent=String(state.user?.ai_credits||0);
+ $("sideUser").textContent=state.user?.username||"Chưa đăng nhập";
+ $("adminNav").classList.toggle("hidden",state.user?.role!=="admin");
+}
+async function syncMe(){
+ if(!state.token)return;
+ const data=await api("/api/auth/me");
+ state.user=data.user;state.config=data.config||state.config;
+ updateHeader();renderBroadcast();state.lastSync=Date.now();
+}
+function renderBroadcast(){
+ const message=state.config.broadcast_message||"";
+ $("broadcast").classList.toggle("hidden",!message);
+ $("broadcastText").textContent=message?("✦ SYSTEM BROADCAST: "+message+"   ◆   "):"";
+}
+function cooldownText(){
+ const hours=Number(state.config.cooldown_hours??24);
+ const last=state.user?.ai_last_used?new Date(state.user.ai_last_used).getTime():0;
+ if(!last)return "READY";
+ const remain=Math.max(0,last+hours*3600000-Date.now());
+ if(!remain)return "READY";
+ const h=Math.floor(remain/3600000),m=Math.floor(remain%3600000/60000),s=Math.floor(remain%60000/1000);
+ return [h,m,s].map(n=>String(n).padStart(2,"0")).join(":");
+}
+function tickHeader(){
+ $("topCooldown").textContent=cooldownText();
+}
+setInterval(tickHeader,1000);
+
+/* ========================= AUTH ========================= */
+function setAuthMode(mode){
+ state.authMode=mode;
+ $("loginTab").classList.toggle("primary",mode==="login");
+ $("registerTab").classList.toggle("primary",mode==="register");
+ $("authSubmit").textContent=mode==="login"?"ĐĂNG NHẬP →":"TẠO TÀI KHOẢN →";
+ $("authPassword").autocomplete=mode==="login"?"current-password":"new-password";
+}
+$("loginTab").onclick=()=>setAuthMode("login");
+$("registerTab").onclick=()=>setAuthMode("register");
+$("authForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const button=$("authSubmit");setBusy(button,true);
+ try{
+  const username=$("authUsername").value.trim(),password=$("authPassword").value;
+  const data=await api("/api/auth/"+(state.authMode==="login"?"login":"register"),{
+   method:"POST",body:JSON.stringify({username,password})
+  });
+  state.token=data.token;localStorage.setItem("forge_token",state.token);
+  await syncMe();hideAuth();toast("Chào mừng "+state.user.username+" đến với Forge.","success");navigate("chat");
+ }catch(error){toast(error.message,"warning");}
+ finally{setBusy(button,false);}
+});
+
+/* ========================= NAVIGATION ========================= */
+const pageNames={
+ chat:["AI CORE","LÕI AI CHAT","Trợ lý lập trình Lua và giải thích mã nguồn."],
+ wallet:["TREASURY","VÍ KHO BÁU","Quản lý số dư, nạp tiền và mua lượt AI."],
+ bounty:["COMMUNITY","SĂN TIỀN THƯỞNG","Kênh cộng đồng và thông tin chương trình thưởng."],
+ giftcode:["REWARD VAULT","KÉT GIFTCODE","Đổi mã quà tặng vào tài khoản."],
+ market:["SCRIPT NETWORK","CHỢ SCRIPT CỘNG ĐỒNG","Khám phá và chia sẻ mã Lua đã được duyệt."],
+ shield:["CODE VAULT","LÒ BẢO MẬT RAW","Lưu và đóng gói mã Lua của bạn."],
+ admin:["OVERLORD","ADMIN DASHBOARD","Tổng quan vận hành hệ thống."],
+ "admin-users":["OVERLORD / USERS","QUẢN LÝ USER","Điều chỉnh số dư, lượt AI và trạng thái."],
+ "admin-deposits":["OVERLORD / FINANCE","DUYỆT NẠP TIỀN","Xử lý các yêu cầu nạp đang chờ."],
+ "admin-scripts":["OVERLORD / MODERATION","DUYỆT SCRIPT","Kiểm duyệt nội dung cộng đồng."],
+ "admin-config":["OVERLORD / SYSTEM","SYSTEM CONFIG","Điều chỉnh cấu hình và thông báo."]
+};
+function pageHead(page,action=""){
+ const info=pageNames[page]||pageNames.chat;
+ return `<div class="page-head"><div><div class="eyebrow">${info[0]}</div><h1 class="page-title">${info[1]}</h1><p class="page-sub">${info[2]}</p></div>${action}</div>`;
+}
+function navigate(page){
+ if(!requireUser())return;
+ if(page.startsWith("admin")&&state.user.role!=="admin"){toast("Bạn không có quyền truy cập.","warning");return;}
+ state.page=page;
+ document.querySelectorAll(".nav-item").forEach(el=>el.classList.toggle("active",el.dataset.page===page));
+ document.querySelectorAll("[data-mobile]").forEach(el=>el.classList.toggle("active",el.dataset.mobile===page));
+ $("sidebar").classList.remove("open");
+ renderPage();
+}
+document.querySelectorAll(".nav-item").forEach(el=>el.addEventListener("click",()=>navigate(el.dataset.page)));
+document.querySelectorAll("[data-mobile]").forEach(el=>el.addEventListener("click",()=>navigate(el.dataset.mobile)));
+$("menuToggle").onclick=()=>$("sidebar").classList.toggle("open");
+$("accountBtn").onclick=()=>openAccountModal();
+
+/* ========================= MODALS ========================= */
+function openModal(content){
+ $("modalBox").innerHTML=content;$("modalOverlay").classList.remove("hidden");
+}
+function closeModal(){$("modalOverlay").classList.add("hidden");$("modalBox").innerHTML="";}
+$("modalOverlay").addEventListener("click",e=>{if(e.target===$("modalOverlay"))closeModal();});
+function openAccountModal(){
+ if(!state.user)return;
+ openModal(`<div class="modal-head"><h3>◉ ACCOUNT PROFILE</h3><button class="icon-btn" id="modalClose">✕</button></div>
+ <div class="panel"><div class="eyebrow">IDENTITY</div><h2 style="margin:4px 0">${escapeHTML(state.user.username)}</h2><span class="badge ${state.user.role==="admin"?"pending":"approved"}">${escapeHTML(state.user.role.toUpperCase())}</span></div>
+ <div class="grid two" style="margin-top:12px"><div class="panel"><div class="stat-label">WALLET</div><div class="stat-value gold">${money(state.user.balance)}</div></div><div class="panel"><div class="stat-label">AI CREDITS</div><div class="stat-value">${state.user.ai_credits}</div></div></div>
+ <div class="actions" style="margin-top:15px"><button class="btn danger" id="logoutBtn">ĐĂNG XUẤT</button></div>`);
+ $("modalClose").onclick=closeModal;$("logoutBtn").onclick=()=>{closeModal();logout();};
+}
+
+/* ========================= PAGE RENDERER ========================= */
+async function renderPage(){
+ const page=state.page;
+ main.innerHTML=pageHead(page)+`<div class="empty">Đang tải dữ liệu...</div>`;
+ try{
+  if(page==="chat")renderChat();
+  else if(page==="wallet")await renderWallet();
+  else if(page==="bounty")renderBounty();
+  else if(page==="giftcode")renderGiftcode();
+  else if(page==="market")await renderMarket();
+  else if(page==="shield")await renderShield();
+  else if(page==="admin")await renderAdmin();
+  else if(page==="admin-users")await renderAdminUsers();
+  else if(page==="admin-deposits")await renderAdminDeposits();
+  else if(page==="admin-scripts")await renderAdminScripts();
+  else if(page==="admin-config")await renderAdminConfig();
+ }catch(error){main.innerHTML=pageHead(page)+`<div class="empty">${escapeHTML(error.message)}</div>`;}
+}
+
+/* ========================= CHAT ========================= */
+function extractCode(text){
+ const blocks=[];const re=/```(?:lua)?\s*([\s\S]*?)```/gi;let match,last=0,html="";
+ while((match=re.exec(text))!==null){
+  html+=escapeHTML(text.slice(last,match.index)).replace(/\n/g,"<br>");
+  blocks.push(match[1]);html+=codeBlock(match[1],blocks.length);last=re.lastIndex;
+ }
+ html+=escapeHTML(text.slice(last)).replace(/\n/g,"<br>");
+ return {html,blocks};
+}
+function codeBlock(code,index){
+ const safe=escapeHTML(code);
+ return `<div class="codebox"><div class="codebox-head"><span>◈ LUA SOURCE · BLOCK ${index}</span><div class="actions"><button class="btn copy-code" data-code="${encodeURIComponent(code)}">COPY</button><button class="btn download-code" data-code="${encodeURIComponent(code)}">DOWNLOAD</button></div></div><pre><code>${safe}</code></pre></div>`;
+}
+function addMessage(role,text){
+ const log=$("chatLog");if(!log)return;
+ const wrap=document.createElement("div");wrap.className="message "+role;
+ const body=role==="assistant"?extractCode(text).html:escapeHTML(text).replace(/\n/g,"<br>");
+ wrap.innerHTML=`<div class="msg-head">${role==="user"?"YOU / INPUT":"FORGE AI / OUTPUT"}</div><div>${body}</div>`;
+ log.appendChild(wrap);log.scrollTop=log.scrollHeight;
+ wrap.querySelectorAll(".copy-code").forEach(btn=>btn.onclick=()=>copyText(decodeURIComponent(btn.dataset.code)));
+ wrap.querySelectorAll(".download-code").forEach(btn=>btn.onclick=()=>downloadText(decodeURIComponent(btn.dataset.code),"forge-script.lua"));
+}
+function renderChat(){
+ main.innerHTML=pageHead("chat")+`
+ <div class="panel cut chat-shell">
+ <div class="row" style="justify-content:space-between;margin-bottom:10px"><div><span class="badge approved">● CORE ONLINE</span> <span class="small muted">Lua Assistant</span></div><button class="btn" id="clearChat">CLEAR SESSION</button></div>
+ <div class="chat-log" id="chatLog"><div class="message assistant"><div class="msg-head">FORGE AI / SYSTEM</div>Xin chào ${escapeHTML(state.user.username)}. Tôi có thể hỗ trợ viết, giải thích, sửa lỗi và tối ưu Lua cho các dự án hợp pháp. Hãy nhập yêu cầu của bạn.</div></div>
+ <div id="chatStatus" class="typing hidden">◌ AI đang xử lý...</div>
+ <div class="chat-compose"><textarea id="chatPrompt" maxlength="10000" placeholder="Nhập yêu cầu Lua... (Enter để gửi, Shift+Enter xuống dòng)"></textarea><button class="btn primary" id="sendChat">GỬI ↗</button></div>
+ <div class="small muted" style="margin-top:8px">Còn ${Number(state.user.ai_credits)||0} lượt AI · Cooldown: ${Number(state.config.cooldown_hours)||24} giờ sau mỗi lần sử dụng.</div>
+ </div>`;
+ $("clearChat").onclick=()=>{$("chatLog").innerHTML="";};
+ const input=$("chatPrompt"),send=$("sendChat");
+ send.onclick=()=>state.chatBusy?stopChat():sendChat();
+ input.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();if(!state.chatBusy)sendChat();}});
+}
+async function sendChat(){
+ const input=$("chatPrompt"),prompt=input.value.trim();if(!prompt)return;
+ if(state.chatBusy)return;
+ addMessage("user",prompt);input.value="";
+ state.chatBusy=true;$("sendChat").textContent="STOP ■";$("sendChat").classList.remove("primary");$("chatStatus").classList.remove("hidden");
+ const controller=new AbortController();state.chatAbort=controller;
+ try{
+  const data=await api("/api/ai/chat",{method:"POST",body:JSON.stringify({prompt}),signal:controller.signal});
+  addMessage("assistant",data.answer||"AI không trả về nội dung.");
+  await syncMe();
+ }catch(error){
+  if(error.name==="AbortError")addMessage("assistant","Yêu cầu đã được dừng ở phía trình duyệt. Lưu ý: máy chủ có thể vẫn tiếp tục xử lý yêu cầu đã nhận.");
+  else addMessage("assistant","Lỗi: "+error.message);
+ }finally{
+  state.chatBusy=false;state.chatAbort=null;
+  if($("sendChat")){$("sendChat").textContent="GỬI ↗";$("sendChat").classList.add("primary");}
+  if($("chatStatus"))$("chatStatus").classList.add("hidden");
+ }
+}
+function stopChat(){if(state.chatAbort)state.chatAbort.abort();}
+
+/* ========================= WALLET ========================= */
+async function renderWallet(){
+ const [historyData]=await Promise.all([api("/api/wallet/history")]);
+ const tx=historyData.transactions||[];
+ main.innerHTML=pageHead("wallet")+`
+ <div class="grid cards">
+ <div class="panel"><div class="stat-label">AVAILABLE BALANCE</div><div class="stat-value gold">${money(state.user.balance)}</div><div class="stat-foot">Số dư hiện tại</div></div>
+ <div class="panel"><div class="stat-label">AI CREDITS</div><div class="stat-value">${state.user.ai_credits}</div><div class="stat-foot">Lượt sử dụng còn lại</div></div>
+ <div class="panel"><div class="stat-label">CREDIT PRICE</div><div class="stat-value">1.000 ₫</div><div class="stat-foot">Mỗi lượt AI</div></div>
+ <div class="panel"><div class="stat-label">PAYMENT STATUS</div><div class="stat-value green">SECURE</div><div class="stat-foot">Đơn nạp cần xác minh</div></div></div>
+ <div class="grid two" style="margin-top:15px">
+ <section class="panel"><h3 class="panel-title">⇧ TẠO ĐƠN NẠP TIỀN</h3><form id="depositForm">
+ <div class="field"><label>SỐ TIỀN (10.000–50.000.000 VNĐ)</label><input id="depositAmount" type="number" min="10000" max="50000000" step="1000" required placeholder="50000"></div>
+ <div class="field"><label>PHƯƠNG THỨC</label><select id="paymentMethod"><option>Bank</option><option>Momo</option><option>Zing</option><option>Garena</option><option>Viettel</option><option>Mobifone</option></select></div>
+ <div class="field"><label>GHI CHÚ / MÃ THAM CHIẾU (KHÔNG NHẬP MẬT KHẨU)</label><input id="depositDescription" maxlength="500" placeholder="Nội dung chuyển khoản nếu có"></div>
+ <button class="btn primary" type="submit">TẠO ĐƠN NẠP</button><p class="small muted">Tạo đơn không đồng nghĩa tiền đã được cộng. Admin cần xác minh thanh toán hoặc hệ thống webhook xác nhận.</p></form></section>
+ <section class="panel"><h3 class="panel-title">◇ MUA AI CREDITS</h3><form id="buyForm"><div class="field"><label>SỐ LƯỢT MUỐN MUA</label><input id="buyQuantity" type="number" min="1" max="1000" value="5" required></div><div class="panel" style="background:#ffffff05"><div class="stat-label">TỔNG THANH TOÁN</div><div class="stat-value gold" id="buyTotal">5.000 ₫</div><div class="small muted">1.000 VNĐ / lượt AI</div></div><button class="btn gold-btn" style="margin-top:12px" type="submit">MUA LƯỢT AI</button></form></section></div>
+ <section class="panel" style="margin-top:15px"><h3 class="panel-title">◷ LỊCH SỬ GIAO DỊCH</h3><div class="table-wrap"><table><thead><tr><th>THỜI GIAN</th><th>LOẠI</th><th>SỐ TIỀN</th><th>PHƯƠNG THỨC</th><th>TRẠNG THÁI</th></tr></thead><tbody>${tx.length?tx.map(t=>`<tr><td>${new Date(t.createdAt).toLocaleString("vi-VN")}</td><td>${escapeHTML(t.type)}</td><td>${money(t.amount)}</td><td>${escapeHTML(t.payment_method)}</td><td><span class="badge ${escapeHTML(t.status)}">${escapeHTML(t.status)}</span></td></tr>`).join(""):`<tr><td colspan="5"><div class="empty">Chưa có giao dịch.</div></td></tr>`}</tbody></table></div></section>`;
+ $("depositForm").onsubmit=createDeposit;
+ $("buyQuantity").oninput=()=>{$("buyTotal").textContent=money((Number($("buyQuantity").value)||0)*1000);};
+ $("buyForm").onsubmit=buyCredits;
+}
+async function createDeposit(e){
+ e.preventDefault();const btn=e.submitter;setBusy(btn,true);
+ try{
+  const data=await api("/api/wallet/deposit",{method:"POST",body:JSON.stringify({
+   amount:Number($("depositAmount").value),payment_method:$("paymentMethod").value,description:$("depositDescription").value
+  })});
+  toast("Đã tạo đơn: "+data.transaction.reference,"success");await renderWallet();
+ }catch(error){toast(error.message,"warning");}finally{setBusy(btn,false);}
+}
+async function buyCredits(e){
+ e.preventDefault();const btn=e.submitter;setBusy(btn,true);
+ try{
+  const data=await api("/api/wallet/buy-credits",{method:"POST",body:JSON.stringify({quantity:Number($("buyQuantity").value)})});
+  await syncMe();toast("Đã mua lượt AI thành công.","success");await renderWallet();
+ }catch(error){toast(error.message,"warning");}finally{setBusy(btn,false);}
+}
+
+/* ========================= COMMUNITY / BOUNTY ========================= */
+function renderBounty(){
+ main.innerHTML=pageHead("bounty")+`
+ <div class="grid two">
+ <section class="panel cut"><div class="eyebrow">COMMUNITY CHANNEL</div><h2>Tham gia cộng đồng</h2><p class="muted">Theo dõi thông báo, trao đổi kiến thức Lua và cập nhật hoạt động cộng đồng.</p><div class="links"><a class="link-chip" href="https://discord.gg/rscNF8X57" target="_blank" rel="noopener noreferrer">◉ Discord Community ↗</a><a class="link-chip" href="https://www.facebook.com/share/1CFAzF9o2r/" target="_blank" rel="noopener noreferrer">f Facebook ↗</a></div></section>
+ <section class="panel"><div class="eyebrow gold">BOUNTY BOARD</div><h2>Reward missions</h2><p class="muted">Các chương trình thưởng sẽ được công bố qua kênh cộng đồng hoặc thông báo hệ thống.</p><span class="badge pending">ĐANG CHỜ CẬP NHẬT</span></section></div>
+ <section class="panel" style="margin-top:15px"><h3 class="panel-title">QUY TẮC THAM GIA</h3><ul class="muted"><li>Không gửi mật khẩu, token hoặc dữ liệu cá nhân.</li><li>Chỉ tham gia nhiệm vụ được quản trị viên xác nhận.</li><li>Phần thưởng chỉ được ghi nhận sau khi xác minh.</li></ul></section>`;
+}
+
+/* ========================= GIFTCODE ========================= */
+function renderGiftcode(){
+ main.innerHTML=pageHead("giftcode")+`
+ <div class="grid two"><section class="panel cut"><div class="eyebrow gold">REWARD VAULT</div><h2>Redeem your code</h2><p class="muted">Nhập Giftcode hợp lệ để nhận số dư hoặc lượt AI.</p><form id="giftForm"><div class="field"><label>GIFT CODE</label><input id="giftInput" maxlength="32" required placeholder="FORGE-XXXX-XXXX" style="text-transform:uppercase"></div><button class="btn gold-btn" type="submit">MỞ KÉT QUÀ</button></form><div id="giftResult" class="small muted" style="margin-top:12px"></div></section><section class="panel"><div class="stat-label">YOUR REWARDS</div><div class="stat-value gold">${money(state.user.balance)}</div><div class="muted small">Số dư ví hiện tại</div><div class="stat-value">${state.user.ai_credits} AI</div><div class="muted small">Lượt AI hiện tại</div></section></div>`;
+ $("giftForm").onsubmit=async e=>{
+  e.preventDefault();const btn=e.submitter;setBusy(btn,true);
+  try{const data=await api("/api/giftcodes/redeem",{method:"POST",body:JSON.stringify({code:$("giftInput").value.trim().toUpperCase()})});$("giftResult").textContent="Đã nhận "+data.reward.value+" "+data.reward.type;toast("Giftcode đã được đổi!","success");await syncMe();renderGiftcode();}
+  catch(error){$("giftResult").textContent=error.message;toast(error.message,"warning");}
+  finally{setBusy(btn,false);}
+ };
+}
+
+/* ========================= SCRIPT MARKET ========================= */
+async function renderMarket(){
+ const data=await api("/api/scripts");
+ const scripts=data.scripts||[];
+ main.innerHTML=pageHead("market",`<button class="btn primary" id="submitScriptBtn">＋ ĐĂNG SCRIPT</button>`)+`
+ <div class="grid cards">${scripts.length?scripts.map(s=>`<article class="panel market-card"><div class="row" style="justify-content:space-between"><span class="badge approved">APPROVED</span><span class="small muted">${Number(s.downloads)||0} downloads</span></div><h3>${escapeHTML(s.title)}</h3><p>${escapeHTML(s.description||"Không có mô tả.")}</p><div class="meta">AUTHOR · ${escapeHTML(s.authorId?.username||"Unknown")}</div><button class="btn" data-download="${escapeHTML(s._id)}">XEM / TẢI MÃ</button></article>`).join(""):`<div class="empty" style="grid-column:1/-1">Chưa có Script được duyệt.</div>`}</div>`;
+ $("submitScriptBtn").onclick=openSubmitScript;
+ main.querySelectorAll("[data-download]").forEach(btn=>btn.onclick=()=>downloadMarketScript(btn.dataset.download));
+}
+function openSubmitScript(){
+ openModal(`<div class="modal-head"><h3>＋ SUBMIT LUA SCRIPT</h3><button class="icon-btn" id="modalClose">✕</button></div><form id="scriptSubmitForm"><div class="field"><label>TÊN SCRIPT</label><input id="scriptTitle" maxlength="100" required></div><div class="field"><label>MÔ TẢ</label><textarea id="scriptDescription" maxlength="1000"></textarea></div><div class="field"><label>LUA SOURCE</label><textarea id="scriptCode" maxlength="100000" required style="min-height:190px" placeholder="print('Hello Forge')"></textarea></div><button class="btn primary" type="submit">GỬI KIỂM DUYỆT</button></form>`);
+ $("modalClose").onclick=closeModal;
+ $("scriptSubmitForm").onsubmit=async e=>{e.preventDefault();const btn=e.submitter;setBusy(btn,true);try{await api("/api/scripts",{method:"POST",body:JSON.stringify({title:$("scriptTitle").value,description:$("scriptDescription").value,code:$("scriptCode").value})});closeModal();toast("Script đã gửi kiểm duyệt.","success");}catch(error){toast(error.message,"warning");}finally{setBusy(btn,false);}};
+}
+async function downloadMarketScript(id){
+ try{const data=await api("/api/scripts/"+encodeURIComponent(id)+"/download");openModal(`<div class="modal-head"><h3>${escapeHTML(data.script.title)}</h3><button class="icon-btn" id="modalClose">✕</button></div><div class="small muted">AUTHOR · ${escapeHTML(data.script.author)}</div>${codeBlock(data.script.code,1)}<div class="actions"><button class="btn primary" id="downloadMarketCode">TẢI LUA</button></div>`);
+ $("modalClose").onclick=closeModal;$("downloadMarketCode").onclick=()=>downloadText(data.script.code,(data.script.title.replace(/[^a-z0-9_-]/gi,"_")||"script")+".lua");
+ $("modalBox").querySelectorAll(".copy-code").forEach(b=>b.onclick=()=>copyText(decodeURIComponent(b.dataset.code)));
+ }catch(error){toast(error.message,"warning");}
+}
+
+/* ========================= LUA SHIELD ========================= */
+async function renderShield(){
+ const data=await api("/api/shield/my-raw");
+ const packages=data.packages||[];
+ main.innerHTML=pageHead("shield")+`
+ <div class="grid two"><section class="panel cut"><div class="eyebrow">CODE PACKAGER</div><h2>Lua Package Forge</h2><p class="muted small">Đóng gói Base64 để lưu trữ và truy xuất mã của bạn. Base64 không phải mã hóa và không ngăn người khác đọc mã.</p><form id="shieldForm"><div class="field"><label>PACKAGE TITLE</label><input id="rawTitle" maxlength="100" placeholder="My Lua Package"></div><div class="field"><label>LUA SOURCE</label><textarea id="rawCode" maxlength="100000" required style="min-height:210px" placeholder="print('Hello World')"></textarea></div><button class="btn primary" type="submit">⬡ GENERATE PACKAGE</button></form></section>
+ <section class="panel"><h3 class="panel-title">MY PACKAGES</h3><div id="rawList">${packages.length?packages.map(p=>`<div class="row" style="justify-content:space-between;border-bottom:1px solid var(--line);padding:10px 0"><div><b>${escapeHTML(p.title)}</b><div class="small muted">${new Date(p.createdAt).toLocaleString("vi-VN")}</div><div class="small mono muted">${escapeHTML(p.rawId)}</div></div><div class="actions"><button class="btn" data-raw-view="${escapeHTML(p.rawId)}">VIEW</button><button class="btn danger" data-raw-delete="${escapeHTML(p.rawId)}">DELETE</button></div></div>`).join(""):`<div class="empty">Chưa có package.</div>`}</div></section></div>`;
+ $("shieldForm").onsubmit=async e=>{e.preventDefault();const btn=e.submitter;setBusy(btn,true);try{const result=await api("/api/shield/generate-raw",{method:"POST",body:JSON.stringify({title:$("rawTitle").value,code:$("rawCode").value})});toast("Đã tạo package "+result.raw.id,"success");await renderShield();}catch(error){toast(error.message,"warning");}finally{setBusy(btn,false);}};
+ main.querySelectorAll("[data-raw-view]").forEach(b=>b.onclick=()=>viewRaw(b.dataset.rawView));
+ main.querySelectorAll("[data-raw-delete]").forEach(b=>b.onclick=()=>deleteRaw(b.dataset.rawDelete));
+}
+async function viewRaw(id){
+ try{const data=await api("/api/shield/"+encodeURIComponent(id));openModal(`<div class="modal-head"><h3>${escapeHTML(data.raw.title)}</h3><button class="icon-btn" id="modalClose">✕</button></div>${codeBlock(data.raw.code,1)}<button class="btn primary" id="rawDownload">DOWNLOAD LUA</button>`);$("modalClose").onclick=closeModal;$("rawDownload").onclick=()=>downloadText(data.raw.code,"package.lua");$("modalBox").querySelectorAll(".copy-code").forEach(b=>b.onclick=()=>copyText(decodeURIComponent(b.dataset.code)));}catch(error){toast(error.message,"warning");}
+}
+async function deleteRaw(id){
+ if(!confirmAction("Xóa package này?"))return;
+ try{await api("/api/shield/"+encodeURIComponent(id),{method:"DELETE"});toast("Đã xóa package.","success");await renderShield();}catch(error){toast(error.message,"warning");}
+}
+function confirmAction(message){return window.confirm(message);}
+
+/* ========================= ADMIN DASHBOARD ========================= */
+async function renderAdmin(){
+ const data=await api("/api/admin/dashboard"),s=data.statistics;
+ main.innerHTML=pageHead("admin")+`
+ <div class="grid cards">
+ <div class="panel"><div class="stat-label">TOTAL USERS</div><div class="stat-value">${s.totalUsers}</div><div class="stat-foot">Tài khoản đăng ký</div></div>
+ <div class="panel"><div class="stat-label">BANNED USERS</div><div class="stat-value red">${s.bannedUsers}</div><div class="stat-foot">Tài khoản bị khóa</div></div>
+ <div class="panel"><div class="stat-label">APPROVED DEPOSITS</div><div class="stat-value gold">${money(s.totalRevenue)}</div><div class="stat-foot">Tổng nạp đã duyệt</div></div>
+ <div class="panel"><div class="stat-label">PENDING QUEUE</div><div class="stat-value">${s.pendingDeposits+s.pendingScripts}</div><div class="stat-foot">${s.pendingDeposits} đơn nạp · ${s.pendingScripts} script</div></div></div>
+ <div class="grid two" style="margin-top:15px"><div class="panel"><h3 class="panel-title">SYSTEM QUEUE</h3><div class="row"><span class="muted">Pending deposits</span><b class="gold">${s.pendingDeposits}</b></div><div class="progress" style="margin:8px 0 16px"><span style="width:${Math.min(100,s.pendingDeposits*10)}%"></span></div><div class="row"><span class="muted">Pending scripts</span><b class="gold">${s.pendingScripts}</b></div><div class="progress" style="margin-top:8px"><span style="width:${Math.min(100,s.pendingScripts*10)}%"></span></div></div>
+ <div class="panel"><h3 class="panel-title">QUICK ACTIONS</h3><div class="actions"><button class="btn" data-go="admin-users">MANAGE USERS</button><button class="btn" data-go="admin-deposits">DEPOSITS</button><button class="btn" data-go="admin-scripts">SCRIPT REVIEW</button><button class="btn" data-go="admin-config">SYSTEM CONFIG</button></div></div></div>`;
+ main.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>navigate(b.dataset.go));
+}
+
+/* ========================= ADMIN USERS ========================= */
+async function renderAdminUsers(){
+ const data=await api("/api/admin/users?page="+state.usersPage);
+ const users=data.users||[];
+ main.innerHTML=pageHead("admin-users")+`
+ <div class="panel"><div class="row" style="justify-content:space-between"><h3 class="panel-title">REGISTERED USERS · ${data.total}</h3><button class="btn" id="refreshUsers">REFRESH</button></div><div class="table-wrap"><table><thead><tr><th>USERNAME</th><th>ROLE</th><th>BALANCE</th><th>AI</th><th>STATUS</th><th>ACTION</th></tr></thead><tbody>${users.map(u=>`<tr><td><b>${escapeHTML(u.username)}</b><div class="small muted">${escapeHTML(String(u._id))}</div></td><td>${escapeHTML(u.role)}</td><td>${money(u.balance)}</td><td>${u.ai_credits}</td><td><span class="badge ${u.status==="banned"?"banned":"approved"}">${escapeHTML(u.status)}</span></td><td><button class="btn" data-edit-user="${escapeHTML(u._id)}" data-username="${escapeHTML(u.username)}" data-balance="${u.balance}" data-credits="${u.ai_credits}" data-status="${u.status}">EDIT</button></td></tr>`).join("")||`<tr><td colspan="6">No users</td></tr>`}</tbody></table></div><div class="actions" style="margin-top:14px"><button class="btn" id="prevUsers" ${state.usersPage<=1?"disabled":""}>← PREVIOUS</button><span class="small muted">Page ${data.page}</span><button class="btn" id="nextUsers" ${users.length<30?"disabled":""}>NEXT →</button></div></div>`;
+ $("refreshUsers").onclick=()=>renderAdminUsers();$("prevUsers").onclick=()=>{state.usersPage=Math.max(1,state.usersPage-1);renderAdminUsers();};$("nextUsers").onclick=()=>{state.usersPage++;renderAdminUsers();};
+ main.querySelectorAll("[data-edit-user]").forEach(b=>b.onclick=()=>editUser(b.dataset));
+}
+function editUser(d){
+ openModal(`<div class="modal-head"><h3>EDIT USER · ${escapeHTML(d.username)}</h3><button class="icon-btn" id="modalClose">✕</button></div><form id="editUserForm"><div class="field"><label>BALANCE (VND)</label><input id="editBalance" type="number" min="0" step="1" value="${Number(d.balance)}" required></div><div class="field"><label>AI CREDITS</label><input id="editCredits" type="number" min="0" step="1" value="${Number(d.credits)}" required></div><div class="field"><label>ACCOUNT STATUS</label><select id="editStatus"><option value="active" ${d.status==="active"?"selected":""}>ACTIVE</option><option value="banned" ${d.status==="banned"?"selected":""}>BANNED</option></select></div><button class="btn primary" type="submit">SAVE CHANGES</button></form>`);
+ $("modalClose").onclick=closeModal;$("editUserForm").onsubmit=async e=>{e.preventDefault();const btn=e.submitter;setBusy(btn,true);try{await api("/api/admin/users/"+encodeURIComponent(d.editUser),{method:"PATCH",body:JSON.stringify({balance:Number($("editBalance").value),ai_credits:Number($("editCredits").value),status:$("editStatus").value})});closeModal();toast("User updated.","success");await renderAdminUsers();}catch(error){toast(error.message,"warning");}finally{setBusy(btn,false);}};
+}
+
+/* ========================= ADMIN DEPOSITS ========================= */
+async function renderAdminDeposits(){
+ const data=await api("/api/admin/deposits"),items=data.transactions||[];
+ main.innerHTML=pageHead("admin-deposits")+`<div class="panel"><div class="row" style="justify-content:space-between"><h3 class="panel-title">PENDING DEPOSITS · ${items.length}</h3><button class="btn" id="refreshDeposits">REFRESH</button></div><div class="table-wrap"><table><thead><tr><th>USER</th><th>REFERENCE</th><th>AMOUNT</th><th>METHOD</th><th>DESCRIPTION</th><th>ACTION</th></tr></thead><tbody>${items.map(t=>`<tr><td>${escapeHTML(t.userId?.username||"Unknown")}</td><td class="mono">${escapeHTML(t.reference||"-")}</td><td class="gold">${money(t.amount)}</td><td>${escapeHTML(t.payment_method)}</td><td>${escapeHTML(t.description||"")}</td><td><div class="actions"><button class="btn success" data-deposit-action="approve" data-id="${escapeHTML(t._id)}">APPROVE</button><button class="btn danger" data-deposit-action="reject" data-id="${escapeHTML(t._id)}">REJECT</button></div></td></tr>`).join("")||`<tr><td colspan="6"><div class="empty">Không có đơn chờ duyệt.</div></td></tr>`}</tbody></table></div></div>`;
+ $("refreshDeposits").onclick=()=>renderAdminDeposits();
+ main.querySelectorAll("[data-deposit-action]").forEach(b=>b.onclick=()=>processDeposit(b.dataset.id,b.dataset.depositAction,b));
+}
+async function processDeposit(id,action,btn){
+ if(action==="approve"&&!confirmAction("Xác nhận đã kiểm tra thanh toán và duyệt đơn?"))return;
+ setBusy(btn,true);
+ try{await api("/api/admin/deposits/"+encodeURIComponent(id),{method:"PATCH",body:JSON.stringify({action})});toast(action==="approve"?"Deposit approved.":"Deposit rejected.", "success");await renderAdminDeposits();}
+ catch(error){toast(error.message,"warning");}finally{setBusy(btn,false);}
+}
+
+/* ========================= ADMIN SCRIPT REVIEW ========================= */
+async function renderAdminScripts(){
+ const data=await api("/api/admin/scripts"),items=data.scripts||[];
+ main.innerHTML=pageHead("admin-scripts")+`<div class="panel"><div class="row" style="justify-content:space-between"><h3 class="panel-title">MODERATION QUEUE · ${items.length}</h3><button class="btn" id="refreshScripts">REFRESH</button></div><div class="grid two">${items.map(s=>`<article class="panel"><span class="badge pending">PENDING</span><h3>${escapeHTML(s.title)}</h3><p class="muted small">${escapeHTML(s.description||"No description")} · ${escapeHTML(s.authorId?.username||"Unknown")}</p><div class="actions"><button class="btn" data-review-view="${escapeHTML(s._id)}">VIEW CODE</button><button class="btn success" data-review="approve" data-id="${escapeHTML(s._id)}">APPROVE</button><button class="btn danger" data-review="reject" data-id="${escapeHTML(s._id)}">REJECT</button></div></article>`).join("")||`<div class="empty" style="grid-column:1/-1">Không có Script chờ duyệt.</div>`}</div></div>`;
+ $("refreshScripts").onclick=()=>renderAdminScripts();
+ main.querySelectorAll("[data-review]").forEach(b=>b.onclick=()=>reviewScript(b.dataset.id,b.dataset.review,b));
+ main.querySelectorAll("[data-review-view]").forEach(b=>b.onclick=()=>viewPendingScript(b.dataset.reviewView));
+}
+async function viewPendingScript(id){
+ try{const data=await api("/api/admin/scripts");const s=data.scripts.find(x=>x._id===id);if(!s)return;openModal(`<div class="modal-head"><h3>${escapeHTML(s.title)}</h3><button class="icon-btn" id="modalClose">✕</button></div><p class="muted">${escapeHTML(s.description||"")}</p>${codeBlock(s.code,1)}`);$("modalClose").onclick=closeModal;$("modalBox").querySelectorAll(".copy-code").forEach(b=>b.onclick=()=>copyText(decodeURIComponent(b.dataset.code)));}catch(error){toast(error.message,"warning");}
+}
+async function reviewScript(id,action,btn){
+ if(!confirmAction("Xác nhận "+action+" script này?"))return;setBusy(btn,true);
+ try{await api("/api/admin/scripts/"+encodeURIComponent(id),{method:"PATCH",body:JSON.stringify({action})});toast("Đã cập nhật trạng thái Script.","success");await renderAdminScripts();}
+ catch(error){toast(error.message,"warning");}finally{setBusy(btn,false);}
+}
+
+/* ========================= ADMIN CONFIG ========================= */
+async function renderAdminConfig(){
+ const data=await api("/api/admin/config"),c=data.config;
+ main.innerHTML=pageHead("admin-config")+`
+ <div class="grid two"><section class="panel cut"><h3 class="panel-title">⚙ CORE CONFIGURATION</h3><form id="configForm">
+ <div class="field"><label>AI COOLDOWN HOURS</label><input id="cfgCooldown" type="number" min="0" max="720" step="1" value="${Number(c.cooldown_hours)}" required></div>
+ <div class="field"><label>DEFAULT FREE AI CREDITS</label><input id="cfgCredits" type="number" min="0" step="1" value="${Number(c.max_free_credits)}" required></div>
+ <div class="field"><label>GLOBAL BROADCAST MESSAGE</label><textarea id="cfgBroadcast" maxlength="1000">${escapeHTML(c.broadcast_message||"")}</textarea></div>
+ <button class="btn primary" type="submit">SAVE SYSTEM CONFIG</button></form></section>
+ <section class="panel"><div class="eyebrow gold">LIVE ANNOUNCEMENT</div><h3>Broadcast Preview</h3><p class="muted small">Thông báo được lưu trong Config và các phiên người dùng sẽ tự đồng bộ qua endpoint /api/auth/me.</p><div class="panel" style="background:#ff003c12;color:#ffb6c5" id="broadcastPreview">${escapeHTML(c.broadcast_message||"Chưa có thông báo.")}</div><p class="small muted">AI API Key được quản lý qua biến môi trường Backend, không hiển thị hoặc chỉnh sửa tại đây.</p></section></div>`;
+ $("cfgBroadcast").oninput=()=>$("broadcastPreview").textContent=$("cfgBroadcast").value||"Chưa có thông báo.";
+ $("configForm").onsubmit=async e=>{e.preventDefault();const btn=e.submitter;setBusy(btn,true);try{const result=await api("/api/admin/config",{method:"PATCH",body:JSON.stringify({cooldown_hours:Number($("cfgCooldown").value),max_free_credits:Number($("cfgCredits").value),broadcast_message:$("cfgBroadcast").value})});state.config=result.config;renderBroadcast();toast("System config updated.","success");}catch(error){toast(error.message,"warning");}finally{setBusy(btn,false);}};
+}
+
+/* ========================= UTILITIES ========================= */
+async function copyText(text){
+ try{await navigator.clipboard.writeText(text);toast("Đã sao chép vào clipboard.","success");}
+ catch(e){const area=document.createElement("textarea");area.value=text;document.body.appendChild(area);area.select();try{document.execCommand("copy");toast("Đã sao chép.","success");}catch(err){toast("Không thể sao chép tự động.","warning");}area.remove();}
+}
+function downloadText(text,filename){
+ const blob=new Blob([text],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download=filename;a.style.display="none";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+
+/* ========================= MATRIX RAIN ========================= */
+(function matrixRain(){
+ const canvas=$("matrix"),ctx=canvas.getContext("2d");let width=0,height=0,columns=[],font=14;
+ function resize(){width=canvas.width=window.innerWidth*devicePixelRatio;height=canvas.height=window.innerHeight*devicePixelRatio;canvas.style.width=window.innerWidth+"px";canvas.style.height=window.innerHeight+"px";ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);const count=Math.ceil(window.innerWidth/font);columns=Array.from({length:count},()=>Math.random()*-50);}
+ window.addEventListener("resize",resize);resize();
+ const chars="01アイウエオカキクケコ{}[]<>LUA";
+ function draw(){ctx.fillStyle="rgba(2,2,5,.09)";ctx.fillRect(0,0,window.innerWidth,window.innerHeight);ctx.font=font+"px monospace";
+  for(let i=0;i<columns.length;i++){const ch=chars[Math.floor(Math.random()*chars.length)];ctx.fillStyle=Math.random()>.96?"#ffb3c2":"#a9002c";ctx.fillText(ch,i*font,columns[i]*font);if(columns[i]*font>window.innerHeight&&Math.random()>.975)columns[i]=0;columns[i]+=.65;}
+  requestAnimationFrame(draw);
+ }draw();
+})();
+
+/* ========================= SESSION BOOTSTRAP ========================= */
+async function bootstrap(){
+ if(!state.token){showAuth();main.innerHTML=pageHead("chat")+`<div class="empty">Đăng nhập để khởi động AI Core.</div>`;return;}
+ try{await syncMe();hideAuth();navigate("chat");}
+ catch(error){logout(false);showAuth();toast(error.message,"warning");}
+}
+setInterval(async()=>{
+ if(!state.token||!state.user)return;
+ try{await syncMe();}catch(e){}
+},30000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&state.token)syncMe().catch(()=>{});});
+bootstrap();
+</script>
+</body>
+</html>
